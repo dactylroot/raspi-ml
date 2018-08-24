@@ -1,0 +1,29 @@
+#!/bin/bash
+
+source ./.watching
+
+apt_installed() {
+    dpkg-query -f '${Package}\n' -W | grep $1 2>/dev/null
+}
+
+
+echo "Installing OpenCV Dependencies."
+
+deps="libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran"
+
+for p in $deps
+do
+    if [[ $(apt_installed $p) ]]
+    then
+        echo "  - $p already installed"
+    else
+        func() {
+            sudo apt install -y $p
+        }
+        watching func "  - $p"
+    fi
+done
+
+
+# Then have to install OpenCV...
+

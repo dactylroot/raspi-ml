@@ -14,6 +14,7 @@ watching()
     local spinstr='|/-\'
     printf "$desc" 
     tput civis
+    stty -echo
     while [ "$(ps a | awk '{print $1}' | grep $pid)" ]; do
         local temp=${spinstr#?}
         printf " [%c] " "$spinstr"
@@ -29,6 +30,7 @@ watching()
         printf "\n  FAILED (exit code %s)\n" "$ret"
     else
         printf "\n"
-    fi  
+    fi
+    stty echo
     tput cnorm
 }
