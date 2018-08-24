@@ -1,0 +1,68 @@
+#!/bin/bash
+
+source ./.watching
+
+if ! hash pip3
+then
+    echo "installing pip3"
+    sudo apt install python3-pip -y
+fi
+
+# `pip list` can be slow so only check once
+installed=$(pip3 list 2>/dev/null)
+pip_installed() {
+    echo $installed | grep -i $1 2>/dev/null
+}
+
+./swap_increase
+
+
+echo "Installing ML Python packages"
+
+pyml="flask pyyaml numpy scipy ipython"
+for p in $pyml
+do
+    if [[ $(pip_installed $p) ]]
+    then
+        echo "  - $p already installed"
+    else
+        func() {
+            pip3 install $p
+        }
+        watching func "  - $p"
+    fi
+done
+
+if [[ $(pip_installed h5py) ]]
+then
+    echo "  - H5PY already installed"
+else
+    func() {
+        sudo apt install libhdf5-dev -y    
+        pip3 install --verbose h5py
+    }
+    watching func "  - H5PY"
+fi
+
+if [[ $(pip_installed tensorflow) ]]
+then
+    echo "  - Tensorflow already installed"
+else
+    func() {
+        sudo apt install libatlas-base-dev -y
+        pip3 install --verbose tensorflow
+    }
+    watching func "  - Tensorflow"
+fi
+
+if [[ $(pip_installed keras) ]]
+then
+    echo "  - Keras already installed"
+else
+    func() {
+        pip3 install --verbose keras
+    }
+    watching func "  - Keras"
+fi
+
+./swap_decrease

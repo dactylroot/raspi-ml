@@ -1,0 +1,23 @@
+#!/bin/bash
+
+source ./.watching
+
+
+SWAPSIZE=100
+SWAPFACTOR=2
+
+if [[ $(grep "^CONF_SWAPSIZE=$SWAPSIZE$" /etc/dphys-swapfile) ]] &&
+   [[ $(grep "^#CONF_SWAPFACTOR=$SWAPFACTOR$" /etc/dphys-swapfile) ]]
+then
+    echo "No changes to swap made here."
+else
+    func() {
+        sudo sed -i "s/^\#\?CONF_SWAPSIZE=.*\$/CONF_SWAPSIZE=$SWAPSIZE/"      /etc/dphys-swapfile
+        sudo sed -i "s/^\#\?CONF_SWAPFACTOR=.*\$/#CONF_SWAPFACTOR=$SWAPFACTOR/" /etc/dphys-swapfile
+        sudo /etc/init.d/dphys-swapfile stop 
+        sudo /etc/init.d/dphys-swapfile start
+    }
+    watching func "Decreasing SWAP file size"
+fi
+
+echo "Swapsize currently decreased to save SD life."

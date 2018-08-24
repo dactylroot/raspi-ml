@@ -1,0 +1,7 @@
+#!/bin/sh
+# disables display through uniker screen on GPIO pins
+# enables HDMI output display
+
+rm /boot/overlays/mzdpi6.dtbo
+rm /boot/config.txt
+

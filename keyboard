@@ -1,0 +1,12 @@
+#!/bin/bash
+# Set keyboard to US English
+
+source ./.watching
+
+func() {
+    XKBMODEL='"pc105"'
+    XKBLAYOUT='us'
+    sed -i "s/^XKBMODEL=.*\$/XKBMODEL=$XKBMODEL/"    /etc/default/keyboard
+    sed -i "s/^XKBLAYOUT=.*\$/XKBLAYOUT=$XKBLAYOUT/" /etc/default/keyboard 
+}
+sudo watching func "setting keyboard to US ENG"

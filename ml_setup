@@ -1,0 +1,42 @@
+#!/bin/bash
+
+source ./.watching
+
+apt_installed() {
+    dpkg-query -f '${Package}\n' -W | grep $1 2>/dev/null
+}
+
+
+./swap_increase
+
+echo "Installing ML system packages."
+
+utils="build-essential imagemagick make cmake git python3-dev pkg-config wget curl llvm xz-utils tk-dev"
+for p in $utils
+do
+    if [[ $(apt_installed $p) ]]
+    then
+        echo "  - $p already installed"
+    else
+        func() {
+            sudo apt install -y $p
+        }
+        watching func "  - $p"
+    fi
+done
+
+libs="libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncurses5-dev libncursesw5-dev libffi-dev python3-pip libqt4-dev"
+for p in $libs
+do
+    if [[ $(apt_installed $p) ]]
+    then
+        echo "  - $p already installed"
+    else
+        func() {
+            sudo apt install -y $p
+        }
+        watching func "  - $p"
+    fi
+done
+
+./swap_decrease

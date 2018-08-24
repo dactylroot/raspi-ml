@@ -1,0 +1,12 @@
+#!/bin/bash
+
+source ./.watching
+
+func() {
+    sudo apt purge wolfram-engine minecraft-pi python-pygame libreoffice bluej greenfoot nuscratch scratch scratch2 sonic-pi claws-mail claws-mail-i18n -y
+    rm -r ~/python_games 2>/dev/null
+    rm -r ~/oldconffiles 2>/dev/null
+    sudo apt clean
+    sudo apt autoremove -y
+}
+watching func "Clearing junk packages."

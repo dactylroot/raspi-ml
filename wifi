@@ -1,0 +1,15 @@
+#!/bin/bash
+
+source ./.watching
+
+func() {
+    SSID=Akshi
+    WPSK=unitedirkbid
+    sudo sed -i "s/^country=.*\$/country=US/" /etc/wpa_supplicant/wpa_supplicant.conf
+    if [[ $(sudo grep "Akshi" /etc/wpa_supplicant/wpa_supplicant.conf) ]]
+    then
+        printf '\nnetwork={\n ssid="%s"\n scan_ssid=1\n psk="%s"\n}\n' $SSID $WPSK | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
+    fi
+}
+watching func "Adding default WIFI"
+

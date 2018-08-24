@@ -1,0 +1,10 @@
+#!/bin/bash
+
+source ./.watching
+
+func() {
+    sudo apt update
+    sudo apt install screen vim pv -y
+}
+watching func "Installing basic utilities"
+

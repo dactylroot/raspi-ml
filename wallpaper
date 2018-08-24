@@ -1,0 +1,17 @@
+#!/bin/bash
+
+source ./.watching
+
+func() {
+    #DATADEPS=/home/pi/.wallpapers/illusory_skull.png
+    #DATADEPS=/home/pi/.wallpapers/illusory_tile_terrace.png
+    DATADEPS=/home/pi/.wallpapers/illusory_tile_diamond.png
+    if [ -f $DATADEPS ]
+    then
+        if hash pcmanfm 2>/dev/null
+        then
+            pcmanfm --set-wallpaper $DATADEPS --wallpaper-mode='tile'
+        fi
+    fi
+}
+watching func "Configuring GUI."
