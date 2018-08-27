@@ -1,17 +1,35 @@
 #!/bin/bash
 
-source ./.watching
+# Wallpaper is set to either $1 or default from here if found 
+#DATADEPS=/home/pi/.wallpapers/illusory_skull.png
+#DATADEPS=/home/pi/.wallpapers/illusory_tile_terrace.png
+DATADEPS=/home/pi/.wallpapers/illusory_tile_diamond.png
 
-func() {
-    #DATADEPS=/home/pi/.wallpapers/illusory_skull.png
-    #DATADEPS=/home/pi/.wallpapers/illusory_tile_terrace.png
-    DATADEPS=/home/pi/.wallpapers/illusory_tile_diamond.png
-    if [ -f $DATADEPS ]
+if [ $# -eq 0 ]
+then
+    if [ ! -f $DATADEPS ]
     then
-        if hash pcmanfm 2>/dev/null
-        then
-            pcmanfm --set-wallpaper $DATADEPS --wallpaper-mode='tile'
-        fi
+        echo "dotfile install usage: install <destination for dotfiles>"
+        exit 1
     fi
-}
-watching func "Configuring GUI."
+else
+    if [ ! -f $1 ]
+    then
+        echo "can't find wallpaper media '$1'"
+    else
+        DATADEPS=$1
+    fi
+fi
+
+
+if hash pcmanfm 2>/dev/null
+then
+    source ./.watching
+    func() {
+        pcmanfm --set-wallpaper $DATADEPS --wallpaper-mode='tile'
+    }
+    watching func "setting wallpaper."
+else
+    echo "can't find `pcmanfm`"
+fi
+
