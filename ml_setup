@@ -7,8 +7,6 @@ apt_installed() {
 }
 
 
-./swap_increase
-
 echo "Installing ML system packages."
 
 utils="build-essential imagemagick make cmake git python3-dev pkg-config wget curl llvm xz-utils tk-dev"
@@ -38,5 +36,3 @@ do
         watching func "  - $p"
     fi
 done
-
-./swap_decrease

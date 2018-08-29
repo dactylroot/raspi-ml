@@ -9,7 +9,7 @@ apt_installed() {
 
 echo "Installing OpenCV Dependencies."
 
-deps="libjpeg-dev libtiff5-dev libjasper-dev libpng12-dev libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran"
+deps="build-essential cmake pkg-config python3-dev libpython3-dev libhdf5-dev libjpeg-dev libtiff5-dev libjasper-dev libpng12-0 libavcodec-dev libavformat-dev libswscale-dev libv4l-dev libxvidcore-dev libx264-dev libgtk2.0-dev libgtk-3-dev libatlas-base-dev gfortran"
 
 for p in $deps
 do
@@ -26,4 +26,4 @@ done
 
 
 # Then have to install OpenCV...
-
+# https://www.pyimagesearch.com/2017/09/04/raspbian-stretch-install-opencv-3-python-on-your-raspberry-pi/

@@ -2,9 +2,23 @@
 
 source ./.watching
 
-func() {
-    sudo apt update
-    sudo apt install screen vim pv -y
+apt_installed() {
+    dpkg-query -f '${Package}\n' -W | grep $1 2>/dev/null
 }
-watching func "Installing basic utilities"
+
+echo "Installing basic utilities"
+
+utils="screen git vim pv"
+for p in $utils
+do
+    if [[ $(apt_installed $p) ]]
+    then
+        echo "  - $p already installed"
+    else
+        func() {
+            sudo apt install -y $p
+        }
+        watching func "  - $p"
+    fi
+done
 
