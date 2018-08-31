@@ -2,10 +2,12 @@
 
 source ./.watching
 
-if ! hash pip3
+if ! hash pip3 2>/dev/null
 then
-    echo "installing pip3"
-    sudo apt install python3-pip -y
+    func() {
+        sudo apt install python3-pip -y
+    }
+    watching func "installing pip3"
 fi
 
 # `pip list` can be slow so only check once

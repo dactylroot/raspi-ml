@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# edit login at /etc/lightdm/pi-greeter.conf
+# edit splash screen as /usr/share/plymouth/themes/pix/splash.png
+# remove raspberry icons from POST by adding "logo.nologo" option to boot://cmdline.txt
+# splash and boot options: https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md
+# animated splash screen etc.: https://yingtongli.me/blog/2016/12/21/splash.html
+
 # Wallpaper is set to either $1 or default from here if found 
 #DATADEPS=/home/pi/.wallpapers/illusory_skull.png
 #DATADEPS=/home/pi/.wallpapers/illusory_tile_terrace.png
@@ -9,7 +15,7 @@ if [ $# -eq 0 ]
 then
     if [ ! -f $DATADEPS ]
     then
-        echo "dotfile install usage: install <destination for dotfiles>"
+        echo "wallpaper install usage: \`wallpaper <source image>\`"
         exit 1
     fi
 else

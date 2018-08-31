@@ -3,7 +3,7 @@
 source ./.watching
 
 apt_installed() {
-    dpkg-query -f '${Package}\n' -W | grep $1 2>/dev/null
+    dpkg-query -f '${Package}\n' -W | grep "^$1\$" 2>/dev/null
 }
 
 echo "Installing basic utilities"

@@ -14,8 +14,6 @@ bash ./keyboard
 
 bash ./wifi
 
-bash ./wallpaper
-
 bash ./os_utils
 
 bash ./date_sync
