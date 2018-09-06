@@ -2,14 +2,17 @@
 
 # edit login at /etc/lightdm/pi-greeter.conf
 # edit splash screen as /usr/share/plymouth/themes/pix/splash.png
-# remove raspberry icons from POST by adding "logo.nologo" option to boot://cmdline.txt
-# splash and boot options: https://www.raspberrypi.org/documentation/configuration/config-txt/boot.md
+# silent boot/splash:
+#   1. https://raspberrypi.stackexchange.com/a/59311/81079
+#   2. https://raspberrypi.stackexchange.com/a/82654/81079
 # animated splash screen etc.: https://yingtongli.me/blog/2016/12/21/splash.html
 
 # Wallpaper is set to either $1 or default from here if found 
 #DATADEPS=/home/pi/.wallpapers/illusory_skull.png
 #DATADEPS=/home/pi/.wallpapers/illusory_tile_terrace.png
 DATADEPS=/home/pi/.wallpapers/illusory_tile_diamond.png
+
+source ./.watching
 
 if [ $# -eq 0 ]
 then
@@ -27,15 +30,34 @@ else
     fi
 fi
 
+if [[ $(identify $DATADEPS | grep '1024x768') ]]
+then
+    MODE=center
+    func(){
+        sudo cp $DATADEPS /usr/share/plymouth/themes/pix/splash.png
+    }
+    watching func "setting Plymouth boot splash"
+else
+    MODE=tile
+fi
+
+
+func(){
+    sudo sed -i "s|^wallpaper=.*|wallpaper=$DATADEPS|"  /etc/lightdm/pi-greeter.conf
+    sudo sed -i "s|^wallpaper_mode=.*|wallpaper_mode=$MODE|"  /etc/lightdm/pi-greeter.conf
+}
+watching func "setting greeter wallpaper."
+
 
 if hash pcmanfm 2>/dev/null
 then
     source ./.watching
     func() {
-        pcmanfm --set-wallpaper $DATADEPS --wallpaper-mode='tile'
+        pcmanfm --set-wallpaper $DATADEPS --wallpaper-mode=$MODE
     }
     watching func "setting wallpaper."
 else
-    echo "can't find `pcmanfm`"
+    echo "can't find `pcmanfm` to set wallpaper."
 fi
+
 

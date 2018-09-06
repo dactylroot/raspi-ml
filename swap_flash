@@ -1,0 +1,30 @@
+#!/bin/bash
+
+source ./.watching
+
+FLASHFILE=\\/media\\/32GFLASH\\/swap
+SWAPFILE=\\/var\\/swap
+
+BIGSIZE=2048
+SMLSIZE=100
+
+if [[ $(grep "^\#\?CONF_SWAPFILE=/var/swap" /etc/dphys-swapfile) ]]
+then
+    SWAPSTR="s/^\#\?CONF_SWAPFILE=.*\$/CONF_SWAPFILE=$FLASHFILE/" 
+    SIZESTR="s/^\#\?CONF_SWAPSIZE=.*\$/CONF_SWAPSIZE=$BIGSIZE/"
+    func() {
+        sudo sed -i $SWAPSTR /etc/dphys-swapfile
+        sudo sed -i $SIZESTR /etc/dphys-swapfile
+    }
+    watching func "Setting SWAP to flash drive."
+else
+    SWAPSTR="s/^\#\?CONF_SWAPFILE=.*\$/#CONF_SWAPFILE=$SWAPFILE/" 
+    SIZESTR="s/^\#\?CONF_SWAPSIZE=.*\$/CONF_SWAPSIZE=$SMLSIZE/"
+    func() {
+        sudo sed -i $SWAPSTR /etc/dphys-swapfile
+        sudo sed -i $SIZESTR /etc/dphys-swapfile
+    }
+    watching func "Setting SWAP to default: $SWAPFILE"
+fi
+
+echo "Swap service needs to be restarted for changes to take effect."

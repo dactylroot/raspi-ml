@@ -1,4 +1,3 @@
-
 ## Raspbian Setup Scripts
 
 These scripts document customization for our production computer-vision devices.
@@ -16,5 +15,5 @@ OpenCV needs to be compiled and installed. Use `cv_prep` then [compile and insta
 
 ### Mini Pi
 
-Successfully created a nice image on a 4GB disk by utilizing an external flash drive for the OpenCV build and to hold the larger swap file.
+Can creat a nice image on a 4GB disk by utilizing an external flash drive as swap space for the large package builds.
 
