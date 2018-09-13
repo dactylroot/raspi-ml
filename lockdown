@@ -1,0 +1,16 @@
+#!/bin/bash
+# Configure Raspbian for real-world deployment
+
+
+echo "Disable login prompt."
+systemctl disable getty@tty1
+
+
+echo "Starting xtrlock with shell login."
+printf "\nxtrlock -f\n" >> /home/pi/.bashrc
+
+
+echo "Disabling root ssh"
+sudo sed -i 's|PermitRootLogin without-password|PermitRootLogin no|' /etc/ssh/sshd_config 
+printf "$(grep 'PermitRootLogin' /etc/ssh/sshd_config)"
+
