@@ -30,13 +30,15 @@ else
     fi
 fi
 
+func(){
+    sudo cp $DATADEPS /usr/share/plymouth/themes/pix/splash.png
+}
+watching func "setting Plymouth boot splash"
+
+
 if [[ $(identify $DATADEPS | grep '1024x768') ]]
 then
     MODE=center
-    func(){
-        sudo cp $DATADEPS /usr/share/plymouth/themes/pix/splash.png
-    }
-    watching func "setting Plymouth boot splash"
 else
     MODE=tile
 fi
