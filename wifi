@@ -5,8 +5,8 @@ source ./.watching
 if [[ ! $(sudo grep "Akshi" /etc/wpa_supplicant/wpa_supplicant.conf) ]]
 then
     func() {
-        SSID=Akshi
-        WPSK=unitedirkbid
+        SSID=wifinetworkname
+        WPSK=plaintextpw
         sudo sed -i "s/^country=.*\$/country=US/" /etc/wpa_supplicant/wpa_supplicant.conf
         printf '\nnetwork={\n ssid="%s"\n scan_ssid=1\n psk="%s"\n}\n' $SSID $WPSK | sudo tee -a /etc/wpa_supplicant/wpa_supplicant.conf
     }
